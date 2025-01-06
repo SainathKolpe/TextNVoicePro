@@ -67,8 +67,21 @@ if action == "Translate Text":
                 if st.button("Generate Speech from Translated Text"):
                     with st.spinner("Generating speech..."):
                         try:
-                            # Use gTTS to convert text to speech (no voice selection)
-                            tts = gTTS(text=st.session_state.translated_text, lang='en', slow=False)
+                            # Mapping translated language to the corresponding language code for gTTS
+                            lang_map = {
+                                "English": "en",
+                                "Hindi": "hi",
+                                "Marathi": "mr",
+                                "French": "fr",
+                                "Spanish": "es",
+                                "German": "de"
+                            }
+                            
+                            # Get the language code for the selected translation language
+                            lang_code = lang_map.get(st.session_state.selected_language, "en")
+                            
+                            # Use gTTS to convert text to speech in the selected language
+                            tts = gTTS(text=st.session_state.translated_text, lang=lang_code, slow=False)
                             audio_path = "generated_speech.mp3"
                             tts.save(audio_path)
 
@@ -85,8 +98,18 @@ elif action == "Generate Speech":
     if st.button("Generate Speech"):
         with st.spinner("Generating speech..."):
             try:
-                # Use gTTS to convert text to speech (no voice selection)
-                tts = gTTS(text=text_input, lang='en', slow=False)
+                # Mapping input language to the corresponding language code for gTTS
+                lang_map = {
+                    "English": "en",
+                    "Hindi": "hi",
+                    "Marathi": "mr"
+                }
+
+                # Get the language code for the selected input language
+                lang_code = lang_map.get(language, "en")
+
+                # Use gTTS to convert text to speech in the selected language
+                tts = gTTS(text=text_input, lang=lang_code, slow=False)
                 audio_path = "generated_speech.mp3"
                 tts.save(audio_path)
 
